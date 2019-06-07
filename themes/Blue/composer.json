@@ -1,0 +1,13 @@
+{
+    "name": "lavrahq/identity-theme-blue",
+    "description": "A simple blue theme signifying security.",
+    "type": "lavra-identity-theme",
+    "autoload": {
+        "psr-4": {
+            "Themes\\Blue\\": "src/"
+        }
+    },
+    "require": {
+        "caffeinated/composer": "*"
+    }
+}
