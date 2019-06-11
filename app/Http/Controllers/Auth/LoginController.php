@@ -98,8 +98,6 @@ class LoginController extends Controller
 
     public function withPassword(PasswordLoginRequest $request)
     {
-        dump(session()->getId());
-
         [ 'password' => $password_raw, 'email' => $email_raw ] = $request->validated();
 
         $email = Email::where('email', $email_raw)
