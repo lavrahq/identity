@@ -123,7 +123,7 @@ class LoginController extends Controller
             Auth::login($user);
 
             return redirect()
-                ->intended(route('portal.'));
+                ->intended(route('portal.index'));
         }
 
         return redirect()
