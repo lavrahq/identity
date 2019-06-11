@@ -16,8 +16,6 @@
         <form action="{{ route('auth.setup.password') }}" method="POST" class="flex flex-col">
             @csrf
 
-            <input type="hidden" name="email" value="{{ $email->id }}" />
-
             <form-input
                 name="password"
                 type="password"

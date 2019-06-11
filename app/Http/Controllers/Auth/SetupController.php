@@ -11,6 +11,8 @@ use App\Http\Requests\Auth\Setup\InitialSetupRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\Setup\SetPasswordRequest;
+use App\Entities\Password;
+use Illuminate\Support\Facades\Hash;
 
 class SetupController extends Controller
 {
@@ -74,6 +76,9 @@ class SetupController extends Controller
         $user->username = request('username');
         $user->save();
 
+        $email->verified_at = now();
+        $email->save();
+
         $email->user()
             ->associate($user)
             ->save();
@@ -86,15 +91,30 @@ class SetupController extends Controller
         }
 
         return redirect()
-            ->route('portal.profile.first_time');
+            ->route('portal.first_time.index');
     }
 
-    public function password(SetPasswordRequest $request)
+    public function password(Request $request)
     {
-        dump('test');
-        Log::info('User is setting a password.', ['user' => auth()->user()->id]);
+        Log::info('User is being asked to set a password.', ['user' => auth()->user()->id]);
 
         return view('auth.setup.password')
             ->withUser(auth()->user());
+    }
+
+    public function setPassword(SetPasswordRequest $request)
+    {
+        Log::info('User has submitted a password to be persisted.', ['user' => auth()->user()->id]);
+
+        [ 'password' => $password ] = $request->validated();
+
+        $pass = new Password();
+        $pass->password = Hash::make($password);
+        $pass->user()
+            ->associate($request->user());
+        $pass->save();
+
+        return redirect()
+            ->route('portal.first_time.index');
     }
 }

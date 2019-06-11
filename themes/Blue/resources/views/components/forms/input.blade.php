@@ -1,5 +1,5 @@
-<div class="bg-gray-100 shadow rounded mt-6 w-full">
-    <label for="{{ $name }}" class="text-xs antialiased font-light pl-2 text-gray-800 w-full @isset($class) {{ $class }} @endisset">
+<div class="bg-gray-100 shadow rounded mt-4 w-full">
+    <label for="{{ $name }}" class="text-xs antialiased font-light pl-2 text-gray-800 w-full @isset($disabled) disabled='disabled' readonly='readonly' @endisset @isset($class) {{ $class }} @endisset">
         {{ $label }}
     </label>
     <input
