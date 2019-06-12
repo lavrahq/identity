@@ -107,6 +107,11 @@ Route::group([
     'as' => 'portal.'
 ], function () {
 
+    Route::get('/', [
+        'uses' => 'DashboardController@index',
+        'as' => 'index'
+    ]);
+
     Route::group([
         'prefix' => '/first_time',
         'as' => 'first_time.'
