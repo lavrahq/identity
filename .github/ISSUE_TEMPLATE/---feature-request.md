@@ -1,6 +1,6 @@
 ---
 name: "\U0001F4A1 Feature Request"
-about: The hub for genius ideas and enginuity.
+about: The hub for genius ideas and enginuity. Help us improve the Identity platform!
 title: ''
 labels: ''
 assignees: kendaljharrison
@@ -8,7 +8,7 @@ assignees: kendaljharrison
 ---
 
 **Describe the feature.**
-What do you want to be added to identity? Describe as clearly and concisely as possible.
+What do you want to be added to Identity? Describe as clearly and concisely as possible.
 
 **Vision for success.**
 Describe in detail how you would like the feature to function: 

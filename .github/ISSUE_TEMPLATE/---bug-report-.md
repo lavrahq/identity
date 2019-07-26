@@ -1,6 +1,6 @@
 ---
 name: "\U0001F41E Bug Report "
-about: Create a report to help us improve
+about: Create a report to help us improve the Identity platform.
 title: ''
 labels: ''
 assignees: ''
