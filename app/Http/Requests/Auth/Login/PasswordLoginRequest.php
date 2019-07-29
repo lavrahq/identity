@@ -27,14 +27,14 @@ class PasswordLoginRequest extends FormRequest
             'email' => [
                 'required',
                 'string',
-                'email'
+                'email',
             ],
             'password' => [
                 'required',
                 'string',
                 'min:8',
-                'max:255'
-            ]
+                'max:255',
+            ],
         ];
     }
 }

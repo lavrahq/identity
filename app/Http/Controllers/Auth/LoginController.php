@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
+use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use App\Notifications\User\CompleteAccountSetup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Entities\Password;
-use App\Http\Requests\Auth\Login\PasswordLoginRequest;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\MessageBag;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class LoginController extends Controller
 {
@@ -55,7 +55,7 @@ class LoginController extends Controller
             ->where('user_id', $email->user->id)
             ->first();
 
-        if (! $password) {
+        if (!$password) {
             // TODO: Send OTP Email
         }
 
@@ -68,7 +68,7 @@ class LoginController extends Controller
 
     public function password(Request $request)
     {
-        if (! $email = $request->session()->get('email')) {
+        if (!$email = $request->session()->get('email')) {
             return redirect()
                 ->route('auth.login.index');
         }
@@ -84,7 +84,7 @@ class LoginController extends Controller
         $email = Email::where('email', $rawEmail)
             ->first();
 
-        if (! $email) {
+        if (!$email) {
             return redirect()
                 ->route('auth.login.index')
                 ->with('error', 'Identity ran into a problem logging you in. Please try again.');
@@ -94,9 +94,9 @@ class LoginController extends Controller
             ->where('user_id', $email->user->id)
             ->first();
 
-        if (! Hash::check($rawPassword, $password->password)) {
+        if (!Hash::check($rawPassword, $password->password)) {
             $messages = new MessageBag([
-                'password' => 'The password provided is invalid.'
+                'password' => 'The password provided is invalid.',
             ]);
 
             return view('auth.login.password')

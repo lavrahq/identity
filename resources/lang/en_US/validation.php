@@ -5,5 +5,5 @@ return [
     'min'   => [
         'string' => 'This field must be at least :min characters.',
     ],
-    'confirmed' => 'This field did not match the confirmation. Please try again.'
+    'confirmed' => 'This field did not match the confirmation. Please try again.',
 ];
