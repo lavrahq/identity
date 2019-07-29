@@ -1,4 +1,12 @@
 <?php
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/logout', function () {
+    Auth::logout();
+
+    return redirect()
+        ->route('portal');
+});
 
 Route::group([
     'prefix' => 'login',
@@ -11,6 +19,15 @@ Route::group([
 
     Route::post('/', [
         'uses' => 'LoginController@email',
+    ]);
+
+    Route::get('/password', [
+        'uses' => 'LoginController@password',
+        'as' => 'password'
+    ]);
+
+    Route::post('/password', [
+        'uses' => 'LoginController@withPassword',
     ]);
 });
 

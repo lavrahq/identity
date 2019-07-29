@@ -107,14 +107,25 @@ class RegisterController extends Controller
 
     public function setPassword(SetupPasswordRequest $request)
     {
-        ['user_id' => $userId, 'password' => $password] = $request->validated();
+        ['user_id' => $userId, 'password' => $rawPassword] = $request->validated();
 
-        Password::create([
-            'user_id'  => $userId,
-            'password' => Hash::make($password),
-        ]);
+        $user = User::find($userId);
 
-        Auth::loginUsingId($userId);
+        if (! $user) {
+            return redirect()
+                ->route('auth.login.index');
+        }
+
+        $password = new Password();
+        $password->password = Hash::make($rawPassword);
+        $password->expired_at = now()->addYear();
+        $password->user()
+            ->associate($user)
+            ->save();
+
+        if (! auth()->user()) {
+            Auth::loginUsingId($userId);
+        }
 
         return redirect()
             ->route('portal');

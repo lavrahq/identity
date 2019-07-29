@@ -47,7 +47,7 @@ class CompleteAccountSetup extends Notification implements ShouldQueue
             ->markdown('mail.user.complete_account_setup', [
                 'setup_link' => URL::temporarySignedRoute(
                     'auth.register.index',
-                    now()->addDay(),
+                    now()->addHour(),
                     [
                         'email' => $notifiable->routes['mail'],
                     ]

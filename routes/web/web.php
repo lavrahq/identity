@@ -13,5 +13,6 @@ Route::group([
     require __DIR__.'/auth.php';
 });
 
-Route::get('/{any}', 'PortalController@index')
-    ->where('any', '.*');
+Route::get('/{any?}', 'PortalController@index')
+    ->where('any', '.*')
+    ->name('portal');
