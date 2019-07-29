@@ -8,6 +8,6 @@ return [
 
         'string' => 'This field must be at least :min characters.',
 
-    ]
+    ],
 
 ];

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Entities\Email;
-use Illuminate\Support\Str;
-use App\Notifications\User\CompleteAccountSetup;
-use Illuminate\Support\Facades\Notification;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
+use App\Notifications\User\CompleteAccountSetup;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class LoginController extends Controller
 {
@@ -27,6 +26,7 @@ class LoginController extends Controller
      * or username is processed.
      *
      * @param EmailRequest $request
+     *
      * @return void
      */
     public function email(EmailRequest $request)
@@ -38,7 +38,7 @@ class LoginController extends Controller
 
         if ($email == null) {
             Notification::route('mail', $requestEmail)
-                    ->notify(new CompleteAccountSetup);
+                    ->notify(new CompleteAccountSetup());
 
             return view('auth.login.verification_sent')
                 ->withEmail($requestEmail);

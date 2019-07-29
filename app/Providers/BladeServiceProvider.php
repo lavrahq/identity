@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\ServiceProvider;
+use Spatie\BladeX\Facades\BladeX;
 
 class BladeServiceProvider extends ServiceProvider
 {

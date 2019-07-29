@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateProfilesTable extends Migration
 {
@@ -31,7 +31,7 @@ class CreateProfilesTable extends Migration
             $table->enum('sex', ['M', 'F']);
             $table->date('birthday')
                 ->nullable();
-            
+
             $table->string('address')
                 ->nullable();
             $table->string('address2')

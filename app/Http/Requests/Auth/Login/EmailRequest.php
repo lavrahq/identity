@@ -27,8 +27,8 @@ class EmailRequest extends FormRequest
             'email' => [
                 'required',
                 'string',
-                'email'
-            ]
+                'email',
+            ],
         ];
     }
 }
