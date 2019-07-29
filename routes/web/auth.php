@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/logout', function () {
@@ -23,7 +24,7 @@ Route::group([
 
     Route::get('/password', [
         'uses' => 'LoginController@password',
-        'as' => 'password'
+        'as'   => 'password',
     ]);
 
     Route::post('/password', [
