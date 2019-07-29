@@ -10,6 +10,8 @@ use App\Entities\User;
 use App\Http\Requests\Auth\Register\FinishRegistrationRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\Register\SetupPasswordRequest;
+use App\Entities\Password;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -86,20 +88,30 @@ class RegisterController extends Controller
      */
     public function password(Request $request)
     {
-        if (! request()->has('user_id')) {
-            return redirect()
-                ->route('auth.login.index');
+        $userId = session('user_id');
+
+        if (auth()->user()) {
+            $userId = auth()->user()->id;
+        }
+
+        if (! auth()->user()) {
+            Auth::loginUsingId($userId);
         }
 
         return view('auth.register.password')
-            ->withUserId(session('user_id'));
+            ->withUserId($userId);
     }
 
     public function setPassword(SetupPasswordRequest $request)
     {
-        Auth::loginUsingId(
-            session('user_id')
-        );
+        ['user_id' => $userId, 'password' => $password] = $request->validated();
+
+        Password::create([
+            'user_id' => $userId,
+            'password' => Hash::make($password)
+        ]);
+
+        Auth::loginUsingId($userId);
 
         return redirect()
             ->route('portal');
