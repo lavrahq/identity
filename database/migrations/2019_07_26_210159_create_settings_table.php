@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSettingsTable extends Migration
 {
@@ -22,7 +22,7 @@ class CreateSettingsTable extends Migration
             $table->enum('type', [
                 'boolean', 'bool', 'integer', 'int',
                 'float', 'duuble', 'string', 'array',
-                'object', 'null'
+                'object', 'null',
             ]);
 
             $table->uuid('created_by');

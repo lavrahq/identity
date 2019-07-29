@@ -9,6 +9,7 @@
         class="bg-gray-100 active:bg-gray-200 w-full outline-none text-xs pl-2 mb-1"
         @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
         @isset($value) value="{{ $value }}" @endisset
+        @isset($focused) autofocus="autofocus" @endisset
     >
 
     @if($errors->has($name))

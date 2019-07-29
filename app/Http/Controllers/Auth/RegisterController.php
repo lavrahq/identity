@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\Register\RegistrationRequest;
 use App\Entities\Email;
-use App\Entities\User;
-use App\Http\Requests\Auth\Register\FinishRegistrationRequest;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Auth\Register\SetupPasswordRequest;
 use App\Entities\Password;
+use App\Entities\User;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\Register\FinishRegistrationRequest;
+use App\Http\Requests\Auth\Register\RegistrationRequest;
+use App\Http\Requests\Auth\Register\SetupPasswordRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -20,11 +20,12 @@ class RegisterController extends Controller
      * their email address is valid.
      *
      * @param RegistrationRequest $request
+     *
      * @return void
      */
     public function index(RegistrationRequest $request)
     {
-        if (! $request->hasValidSignature()) {
+        if (!$request->hasValidSignature()) {
             return redirect()
                 ->route('auth.login.index');
         }
@@ -56,6 +57,7 @@ class RegisterController extends Controller
      * Have user decide whether to login via password or link and save preference.
      *
      * @param FinishRegistrationRequest $request
+     *
      * @return void
      */
     public function finish(FinishRegistrationRequest $request)
@@ -84,6 +86,7 @@ class RegisterController extends Controller
      * Show a form to set the current User's password.
      *
      * @param Request $request
+     *
      * @return void
      */
     public function password(Request $request)
@@ -94,7 +97,7 @@ class RegisterController extends Controller
             $userId = auth()->user()->id;
         }
 
-        if (! auth()->user()) {
+        if (!auth()->user()) {
             Auth::loginUsingId($userId);
         }
 
@@ -104,14 +107,25 @@ class RegisterController extends Controller
 
     public function setPassword(SetupPasswordRequest $request)
     {
-        ['user_id' => $userId, 'password' => $password] = $request->validated();
+        ['user_id' => $userId, 'password' => $rawPassword] = $request->validated();
 
-        Password::create([
-            'user_id' => $userId,
-            'password' => Hash::make($password)
-        ]);
+        $user = User::find($userId);
 
-        Auth::loginUsingId($userId);
+        if (!$user) {
+            return redirect()
+                ->route('auth.login.index');
+        }
+
+        $password = new Password();
+        $password->password = Hash::make($rawPassword);
+        $password->expired_at = now()->addYear();
+        $password->user()
+            ->associate($user)
+            ->save();
+
+        if (!auth()->user()) {
+            Auth::loginUsingId($userId);
+        }
 
         return redirect()
             ->route('portal');

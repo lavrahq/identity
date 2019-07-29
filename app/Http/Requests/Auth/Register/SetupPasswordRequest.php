@@ -30,11 +30,11 @@ class SetupPasswordRequest extends FormRequest
                 'min:8',
                 'max:255',
                 'confirmed',
-                'pwned'
+                'pwned',
             ],
             'user_id' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

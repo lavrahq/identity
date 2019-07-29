@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth\Register;
+namespace App\Http\Requests\Auth\Login;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FinishRegistrationRequest extends FormRequest
+class PasswordLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,16 @@ class FinishRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'login_with' => [
-              'required',
-              'in:password,links',
+            'email' => [
+                'required',
+                'string',
+                'email',
             ],
-            'email_id' => [
-              'required',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'max:255',
             ],
         ];
     }

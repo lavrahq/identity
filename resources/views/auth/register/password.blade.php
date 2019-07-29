@@ -24,6 +24,7 @@
                 label="Set a Password"
                 placeholder="p@ssw0rd123"
                 :value="old('password')"
+                focused
             />
 
             <form-input

@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class Entity extends Model
 {

@@ -2,9 +2,8 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use App\Entity;
+use Illuminate\Notifications\Notifiable;
 
 class Email extends Entity
 {

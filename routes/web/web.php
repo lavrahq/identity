@@ -6,12 +6,13 @@
 
 // Auth
 Route::group([
-    'prefix' => '/auth',
+    'prefix'    => '/auth',
     'namespace' => 'Auth',
-    'as' => 'auth.'
+    'as'        => 'auth.',
 ], function () {
-    require __DIR__ . "/auth.php";
+    require __DIR__.'/auth.php';
 });
 
-Route::get('/{any}', 'PortalController@index')
-    ->where('any', '.*');
+Route::get('/{any?}', 'PortalController@index')
+    ->where('any', '.*')
+    ->name('portal');
