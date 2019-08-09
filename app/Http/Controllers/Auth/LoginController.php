@@ -139,4 +139,8 @@ class LoginController extends Controller
         return view('auth.login.verification_sent');
     }
 
+    public function link()
+    {
+        return view('auth.login.link');
+    }
 }
