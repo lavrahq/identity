@@ -83,7 +83,7 @@ Route::group([
         Route::get('/password', [
             'uses' => 'LoginController@password',
             'as' => 'password'
-        ]);
+        ])->middleware('throttle:20,5');
 
         Route::post('/password', [
             'uses' => 'LoginController@withPassword'
