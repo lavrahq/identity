@@ -94,10 +94,24 @@ Route::group([
             'as' => 'verification_link'
         ]);
 
-        Route::get('/link', [
-            'uses' => 'LoginController@link',
-            'as' => 'link'
-        ]);
+        Route::group([
+            'prefix' => '/link',
+            'as' => 'link.'
+        ], function() {
+            Route::get('/', [
+                'uses' => 'LoginController@link',
+                'as' => 'index'
+            ]);
+
+            Route::post('/', [
+                'uses' => 'LoginController@withOneTimePassword'
+            ]);
+
+            Route::get('/code', [
+                'uses' => 'LoginController@code',
+                'as' => 'code'
+            ]);
+        });
     });
 });
 

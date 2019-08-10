@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Entities\Email;
-use App\Http\Requests\Auth\Login\EmailRequest;
 use App\Jobs\Actions\Login\DispatchMagicLink;
 use App\Jobs\Actions\Login\DispatchVerificationLink;
 use App\Entities\Password;
-use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Auth\Login\EmailRequest;
+use App\Http\Requests\Auth\Login\PasswordLoginRequest;
+use App\Http\Requests\OneTimePasswordRequest;
 
 class LoginController extends Controller
 {
@@ -56,7 +57,7 @@ class LoginController extends Controller
                 dispatch(new DispatchMagicLink($user));
 
                 return redirect()
-                    ->route('auth.login.link');
+                    ->route('auth.login.link.index');
             }
 
             session()
@@ -141,6 +142,35 @@ class LoginController extends Controller
 
     public function link()
     {
-        return view('auth.login.link');
+        if (session()->has('allowed')) {
+            return view('auth.login.link.index')
+                ->withEmail(
+                    session()
+                        ->get('allowed')
+                );
+        }
+
+        return redirect()
+            ->route('auth.login.index')
+            ->withErrors([
+                'email' => [
+                    'Please try logging in again.'
+                ]
+            ])
+            ->withInput();
+    }
+
+    public function withOneTimePassword(OneTimePasswordRequest $request)
+    {
+        if (session()->has('allowed')) {
+            $email = session()->get('allowed');
+
+            if (request('method') == 'link') {
+    
+            } else if (request('method') == 'code') {
+    
+            }
+        }
+
     }
 }
