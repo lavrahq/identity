@@ -112,7 +112,7 @@ class RegisterController extends Controller
 
         $user = User::find($userId);
 
-        if (! $user) {
+        if (!$user) {
             return redirect()
                 ->route('auth.login.index');
         }
@@ -123,7 +123,7 @@ class RegisterController extends Controller
             ->associate($user)
             ->save();
 
-        if (! auth()->user()) {
+        if (!auth()->user()) {
             Auth::loginUsingId($userId);
         }
 

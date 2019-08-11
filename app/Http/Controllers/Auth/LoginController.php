@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
+use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use App\Notifications\User\CompleteAccountSetup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Entities\Password;
-use App\Http\Requests\Auth\Login\PasswordLoginRequest;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Notification;
 use App\Entities\LoginAttempt;
 use App\Entities\IpAddress;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Cache;
 
 class LoginController extends Controller
 {
@@ -86,7 +83,7 @@ class LoginController extends Controller
             ->where('user_id', $email->user->id)
             ->first();
 
-        if (! $password) {
+        if (!$password) {
             // TODO: Send OTP Email
         }
 
@@ -98,7 +95,6 @@ class LoginController extends Controller
     public function password(Request $request)
     {
         $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
-
         if (! $loginAttempt->user) {
             return redirect()
                 ->route('auth.login.index');

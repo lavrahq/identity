@@ -37,8 +37,8 @@ class PasswordLoginRequest extends FormRequest
                 'required',
                 'string',
                 'min:8',
-                'max:255'
-            ]
+                'max:255',
+            ],
         ];
     }
 
