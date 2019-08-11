@@ -2,13 +2,12 @@
 
 namespace Tests\Browser\Auth;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\Browser\Pages\Auth\Login\Index;
 use App\Entities\LoginAttempt;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Auth\Login\Index;
+use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
