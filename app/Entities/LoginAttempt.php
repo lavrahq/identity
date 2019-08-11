@@ -2,14 +2,12 @@
 
 namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Entity;
-use App\Entities\User;
 
 class LoginAttempt extends Entity
 {
     /**
-     * The IP Address
+     * The IP Address.
      *
      * @return void
      */

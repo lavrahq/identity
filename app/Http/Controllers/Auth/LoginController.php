@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\IpAddress;
+use App\Entities\LoginAttempt;
 use App\Entities\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
 use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use App\Notifications\User\CompleteAccountSetup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
-use App\Entities\LoginAttempt;
-use App\Entities\IpAddress;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -27,10 +27,10 @@ class LoginController extends Controller
     public function index(Request $request)
     {
         $ipAddress = IpAddress::firstOrCreate([
-            'ip_address' => $request->ip()
+            'ip_address' => $request->ip(),
         ]);
 
-        $loginAttempt = new LoginAttempt;
+        $loginAttempt = new LoginAttempt();
         $loginAttempt
             ->ipAddress()
             ->associate($ipAddress);
@@ -55,7 +55,7 @@ class LoginController extends Controller
      */
     public function email(EmailRequest $request)
     {
-        if (! $request->hasCookie('idltoken')) {
+        if (!$request->hasCookie('idltoken')) {
             return redirect()
                 ->route('auth.login.index');
         }
@@ -95,7 +95,7 @@ class LoginController extends Controller
     public function password(Request $request)
     {
         $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
-        if (! $loginAttempt->user) {
+        if (!$loginAttempt->user) {
             return redirect()
                 ->route('auth.login.index');
         }
@@ -120,12 +120,12 @@ class LoginController extends Controller
             $request->all(),
             [
                 'password' => function ($a, $value, $fail) use ($password) {
-                    if (! Hash::check($value, $password->password)) {
+                    if (!Hash::check($value, $password->password)) {
                         $fail(trans('validation.password'));
                     }
-                }
+                },
             ],
-            [ 'password' => trans('validation.password') ]
+            ['password' => trans('validation.password')]
         );
 
         $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
@@ -133,7 +133,7 @@ class LoginController extends Controller
         if ($validator->fails()) {
             $next = $loginAttempt->replicate();
             $next->push();
-            
+
             Cookie::queue(
                 'idltoken',
                 $next->id,

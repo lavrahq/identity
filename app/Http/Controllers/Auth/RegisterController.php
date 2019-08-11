@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\LoginAttempt;
 use App\Entities\Password;
 use App\Entities\User;
 use App\Http\Controllers\Controller;
@@ -12,7 +13,6 @@ use App\Http\Requests\Auth\Register\SetupPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Entities\LoginAttempt;
 
 class RegisterController extends Controller
 {

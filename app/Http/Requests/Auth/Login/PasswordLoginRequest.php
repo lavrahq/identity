@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Auth\Login;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\ChecksPassword;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PasswordLoginRequest extends FormRequest
 {
@@ -31,7 +31,7 @@ class PasswordLoginRequest extends FormRequest
                 'required',
                 'string',
                 'email',
-                'exists:emails'
+                'exists:emails',
             ],
             'password' => [
                 'required',
@@ -45,7 +45,7 @@ class PasswordLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Sorry, we had trouble logging you in.'
+            'email.required' => 'Sorry, we had trouble logging you in.',
         ];
     }
 }

@@ -6,8 +6,8 @@ use App\Entity;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class User extends Entity implements
     AuthenticatableContract,
