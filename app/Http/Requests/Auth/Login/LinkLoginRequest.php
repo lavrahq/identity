@@ -25,14 +25,14 @@ class LinkLoginRequest extends FormRequest
     {
         return [
             'attempt' => [
-                'required'
+                'required',
             ],
             'ip' => [
-                'required'
+                'required',
             ],
             'subject' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

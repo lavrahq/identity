@@ -33,12 +33,12 @@ Route::group([
 
     Route::get('/link', [
         'uses' => 'LoginController@link',
-        'as' => 'link'
+        'as'   => 'link',
     ]);
 
     Route::get('/magic_link', [
         'uses' => 'LoginController@withLink',
-        'as' => 'magic_link'
+        'as'   => 'magic_link',
     ]);
 });
 

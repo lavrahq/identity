@@ -8,16 +8,16 @@ use App\Entities\LoginAttempt;
 use App\Entities\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
+use App\Http\Requests\Auth\Login\LinkLoginRequest;
 use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use App\Notifications\User\CompleteAccountSetup;
+use App\Notifications\User\GenerateMagicLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\User\GenerateMagicLink;
-use App\Http\Requests\Auth\Login\LinkLoginRequest;
 
 class LoginController extends Controller
 {
@@ -109,8 +109,6 @@ class LoginController extends Controller
     {
         ['email' => $rawEmail, 'password' => $rawPassword] = $request->validated();
 
-        
-
         $email = Email::where('email', $rawEmail)
             ->first();
 
@@ -161,20 +159,21 @@ class LoginController extends Controller
             ->intended(route('portal'));
     }
 
-    public function link(Request $request) {
-        if (! $request->hasCookie('idltoken')) {
+    public function link(Request $request)
+    {
+        if (!$request->hasCookie('idltoken')) {
             return redirect()
                 ->route('auth.login.index');
         }
 
-        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));        
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
 
         Notification::route('mail', $loginAttempt->user->primaryEmail()->email)
             ->route('attempt', $loginAttempt->id)
             ->route('subject', $loginAttempt->user_id)
             ->route('ip', $loginAttempt->ip_address_id)
             ->notify(new GenerateMagicLink());
-        
+
         return view('auth.login.link');
     }
 
@@ -182,9 +181,11 @@ class LoginController extends Controller
      * Process the clicking of the magic link.
      *
      * @param LinkLoginRequest $request
+     *
      * @return void
      */
-    public function withLink(LinkLoginRequest $request) {
+    public function withLink(LinkLoginRequest $request)
+    {
         $attemptId = request('attempt');
         $ipId = request('ip');
         $subjectId = request('subject');
@@ -195,7 +196,7 @@ class LoginController extends Controller
             return redirect()
                 ->route('auth.login.index')
                 ->withErrors([
-                    'email' => 'Please enter your email again.'
+                    'email' => 'Please enter your email again.',
                 ]);
         }
 
