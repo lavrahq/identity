@@ -13,7 +13,7 @@ class CompleteAccountLogin extends Notification
     use Queueable;
 
     /**
-     * The login attempt associated with the Notification
+     * The login attempt associated with the Notification.
      *
      * @var LoginAttempt
      */
