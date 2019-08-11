@@ -29,4 +29,8 @@ class VerificationController extends Controller
         return redirect()
             ->route('auth.setup.index');
     }
+
+    public function link(Request $request) {
+        return view('auth.login.index');
+    }
 }

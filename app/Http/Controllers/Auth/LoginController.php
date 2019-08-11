@@ -54,7 +54,7 @@ class LoginController extends Controller
                 });
 
             if (! count($passwords)) {
-                dispatch(new DispatchMagicLink($user));
+                dispatch(new DispatchMagicLink($email));
 
                 return redirect()
                     ->route('auth.login.link.index');
@@ -71,7 +71,7 @@ class LoginController extends Controller
         $email->email = request('email');
         $email->save();
 
-        dispatch(new DispatchVerificationLink($email));
+        // dispatch(new DispatchVerificationLink($email));
 
         return redirect()
             ->route('auth.login.verification_link');
@@ -162,12 +162,15 @@ class LoginController extends Controller
 
     public function withOneTimePassword(OneTimePasswordRequest $request)
     {
-        if (session()->has('allowed')) {
-            $email = session()->get('allowed');
+        $method = request('method');
 
-            if (request('method') == 'link') {
-    
-            } else if (request('method') == 'code') {
+        if (session()->has('allowed')) {
+            $email = Email::where('email', session()->get('allowed'))
+                ->first();
+
+            if ($method == 'link') {
+                dispatch(new DispatchMagicLink($email));
+            } else if ($method == 'code') {
     
             }
         }
