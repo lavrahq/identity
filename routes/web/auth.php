@@ -30,6 +30,16 @@ Route::group([
     Route::post('/password', [
         'uses' => 'LoginController@withPassword',
     ]);
+
+    Route::get('/link', [
+        'uses' => 'LoginController@link',
+        'as' => 'link'
+    ]);
+
+    Route::get('/magic_link', [
+        'uses' => 'LoginController@withLink',
+        'as' => 'magic_link'
+    ]);
 });
 
 Route::group([
