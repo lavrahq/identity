@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
 use App\Http\Requests\Auth\Login\LinkLoginRequest;
 use App\Http\Requests\Auth\Login\PasswordLoginRequest;
+use App\Notifications\User\CompleteAccountLogin;
 use App\Notifications\User\CompleteAccountSetup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\User\CompleteAccountLogin;
 
 class LoginController extends Controller
 {
