@@ -2,11 +2,11 @@
 
 namespace App\Notifications\User;
 
+use App\Entities\LoginAttempt;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
-use App\Entities\LoginAttempt;
 
 class CompleteAccountLogin extends Notification
 {
@@ -53,8 +53,8 @@ class CompleteAccountLogin extends Notification
                     now()->addMinutes(5),
                     [
                         'attempt' => $this->loginAttempt->id,
-                        'ip' => $this->loginAttempt->ip_address_id,
-                        'subject' => $this->loginAttempt->user_id
+                        'ip'      => $this->loginAttempt->ip_address_id,
+                        'subject' => $this->loginAttempt->user_id,
                     ]
                 ),
             ]);
