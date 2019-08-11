@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\MessageBag;
 
 class LoginController extends Controller
 {
@@ -115,7 +118,7 @@ class LoginController extends Controller
             ->orWhere('expired_at', null)
             ->where('user_id', $email->user->id)
             ->first();
-
+      
         $validator = Validator::make(
             $request->all(),
             [

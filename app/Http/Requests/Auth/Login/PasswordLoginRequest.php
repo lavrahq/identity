@@ -32,6 +32,7 @@ class PasswordLoginRequest extends FormRequest
                 'string',
                 'email',
                 'exists:emails',
+
             ],
             'password' => [
                 'required',
