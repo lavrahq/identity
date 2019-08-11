@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\IpAddress;
+use App\Entities\LoginAttempt;
 use App\Entities\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login\EmailRequest;
 use App\Http\Requests\Auth\Login\PasswordLoginRequest;
 use App\Notifications\User\CompleteAccountSetup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\MessageBag;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class LoginController extends Controller
 {
@@ -21,9 +27,23 @@ class LoginController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: setup a LoginAttempt to log attempts and info about attempts. Pass it through the rest.
+        $ipAddress = IpAddress::firstOrCreate([
+            'ip_address' => $request->ip(),
+        ]);
+
+        $loginAttempt = new LoginAttempt();
+        $loginAttempt
+            ->ipAddress()
+            ->associate($ipAddress);
+        $loginAttempt->save();
+
+        Cookie::queue(
+            'idltoken',
+            $loginAttempt->id,
+            60 * 5
+        );
 
         return view('auth.login.index');
     }
@@ -38,6 +58,11 @@ class LoginController extends Controller
      */
     public function email(EmailRequest $request)
     {
+        if (!$request->hasCookie('idltoken')) {
+            return redirect()
+                ->route('auth.login.index');
+        }
+
         $requestEmail = request('email');
 
         $email = Email::where('email', $requestEmail)
@@ -51,15 +76,19 @@ class LoginController extends Controller
                 ->withEmail($requestEmail);
         }
 
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
+        $loginAttempt->user()
+            ->associate($email->user);
+        $loginAttempt->save();
+
         $password = Password::whereDate('expired_at', '>', now())
+            ->orWhere('expired_at', null)
             ->where('user_id', $email->user->id)
             ->first();
 
         if (!$password) {
             // TODO: Send OTP Email
         }
-
-        // $cookie = cookie('idlw', $email->email, 300, route('auth.login.password'), config('app.domain'), false, true);
 
         return redirect()
             ->route('auth.login.password')
@@ -68,13 +97,14 @@ class LoginController extends Controller
 
     public function password(Request $request)
     {
-        if (!$email = $request->session()->get('email')) {
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
+        if (!$loginAttempt->user) {
             return redirect()
                 ->route('auth.login.index');
         }
 
         return view('auth.login.password')
-            ->withEmail($email);
+            ->withEmail($loginAttempt->user->primaryEmail());
     }
 
     public function withPassword(PasswordLoginRequest $request)
@@ -84,24 +114,50 @@ class LoginController extends Controller
         $email = Email::where('email', $rawEmail)
             ->first();
 
-        if (!$email) {
-            return redirect()
-                ->route('auth.login.index')
-                ->with('error', 'Identity ran into a problem logging you in. Please try again.');
-        }
-
         $password = Password::whereDate('expired_at', '>', now())
+            ->orWhere('expired_at', null)
             ->where('user_id', $email->user->id)
             ->first();
+      
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'password' => function ($a, $value, $fail) use ($password) {
+                    if (!Hash::check($value, $password->password)) {
+                        $fail(trans('validation.password'));
+                    }
+                },
+            ],
+            ['password' => trans('validation.password')]
+        );
 
-        if (!Hash::check($rawPassword, $password->password)) {
-            $messages = new MessageBag([
-                'password' => 'The password provided is invalid.',
-            ]);
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
 
-            return view('auth.login.password')
-                ->withEmail($rawEmail)
-                ->withErrors($messages);
+        if ($validator->fails()) {
+            $next = $loginAttempt->replicate();
+            $next->push();
+
+            Cookie::queue(
+                'idltoken',
+                $next->id,
+                60 * 5
+            );
+
+            $loginAttempt->is_successful = false;
+            $loginAttempt->save();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($validator);
         }
+
+        $loginAttempt->is_successful = true;
+        $loginAttempt->save();
+
+        Auth::loginUsingId($loginAttempt->user->id);
+
+        return redirect()
+            ->intended(route('portal'));
     }
 }

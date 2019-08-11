@@ -33,6 +33,10 @@
         </form>
 
         <p class="text-xs text-center text-gray-600 font-light antialiased mt-6">
+            By logging in, you consent to your IP Address being stored and session cookies being utilized.
+            <br />
+            <br />
+
             Powered by <a href="#" class="border-b border-dashed border-gray-500 hover:border-solid">{{ config('app.name') }}</a>
         </p>
     </div>

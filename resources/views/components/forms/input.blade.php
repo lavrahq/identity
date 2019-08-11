@@ -1,6 +1,6 @@
 <div class="bg-gray-100 shadow rounded mt-4 w-full">
-    <label for="{{ $name }}" class="text-xs antialiased font-light pl-2 text-gray-800 w-full @isset($disabled) disabled='disabled' readonly='readonly' @endisset @isset($class) {{ $class }} @endisset">
-        {{ $label }}
+    <label for="{{ $name }}" class="flex justify-between text-xs antialiased font-light px-2 mt-1 text-gray-800 w-full @isset($disabled) disabled='disabled' readonly='readonly' @endisset @isset($class) {{ $class }} @endisset">
+        {{ $label }} @isset($link) <a href="$route" class="text-xs text-blue-600 antialiased font-light">{{ $link }}</a> @endisset
     </label>
     <input
         id="{{ $name }}"
@@ -10,6 +10,7 @@
         @isset($placeholder) placeholder="{{ $placeholder }}" @endisset
         @isset($value) value="{{ $value }}" @endisset
         @isset($focused) autofocus="autofocus" @endisset
+        @isset($disabled) readonly="readonly" @endisset
     >
 
     @if($errors->has($name))

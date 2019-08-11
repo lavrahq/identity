@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Entities\Email;
+use App\Entities\LoginAttempt;
 use App\Entities\Password;
 use App\Entities\User;
 use App\Http\Controllers\Controller;
@@ -118,7 +119,6 @@ class RegisterController extends Controller
 
         $password = new Password();
         $password->password = Hash::make($rawPassword);
-        $password->expired_at = now()->addYear();
         $password->user()
             ->associate($user)
             ->save();
@@ -126,6 +126,12 @@ class RegisterController extends Controller
         if (!auth()->user()) {
             Auth::loginUsingId($userId);
         }
+
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
+        $loginAttempt->user()
+            ->associate($user);
+        $loginAttempt->is_successful = true;
+        $loginAttempt->save();
 
         return redirect()
             ->route('portal');
