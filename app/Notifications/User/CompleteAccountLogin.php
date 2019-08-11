@@ -12,6 +12,11 @@ class CompleteAccountLogin extends Notification
 {
     use Queueable;
 
+    /**
+     * The login attempt associated with the Notification
+     *
+     * @var LoginAttempt
+     */
     public $loginAttempt;
 
     /**

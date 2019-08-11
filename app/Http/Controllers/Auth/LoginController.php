@@ -159,6 +159,12 @@ class LoginController extends Controller
             ->intended(route('portal'));
     }
 
+    /**
+     * Email a magic link to the user and notify user about it.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function link(Request $request)
     {
         if (!$request->hasCookie('idltoken')) {
