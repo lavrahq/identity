@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\User\GenerateMagicLink;
 use App\Http\Requests\Auth\Login\LinkLoginRequest;
+use App\Notifications\User\CompleteAccountLogin;
 
 class LoginController extends Controller
 {
@@ -169,12 +170,9 @@ class LoginController extends Controller
 
         $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));        
 
-        Notification::route('mail', $loginAttempt->user->primaryEmail()->email)
-            ->route('attempt', $loginAttempt->id)
-            ->route('subject', $loginAttempt->user_id)
-            ->route('ip', $loginAttempt->ip_address_id)
-            ->notify(new GenerateMagicLink());
-        
+        $loginAttempt->user->primaryEmail()
+            ->notify(new CompleteAccountLogin($loginAttempt));
+
         return view('auth.login.link');
     }
 

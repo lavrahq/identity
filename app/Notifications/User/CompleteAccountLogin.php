@@ -7,19 +7,22 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\URL;
+use App\Entities\LoginAttempt;
 
-class GenerateMagicLink extends Notification
+class CompleteAccountLogin extends Notification
 {
     use Queueable;
+
+    public $loginAttempt;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(LoginAttempt $loginAttempt)
     {
-        //
+        $this->loginAttempt = $loginAttempt;
     }
 
     /**
@@ -42,15 +45,15 @@ class GenerateMagicLink extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->subject('Complete Login for '.config('identity.org.name'))
+            ->subject('Complete Account Login for '.config('identity.org.name'))
             ->markdown('mail.user.generate_magic_link', [
                 'magic_link' => URL::temporarySignedRoute(
                     'auth.login.magic_link',
                     now()->addMinutes(5),
                     [
-                        'attempt' => $notifiable->routes['attempt'],
-                        'ip' => $notifiable->routes['ip'],
-                        'subject' => $notifiable->routes['subject']
+                        'attempt' => $this->loginAttempt->id,
+                        'ip' => $this->loginAttempt->ip_address_id,
+                        'subject' => $this->loginAttempt->user_id
                     ]
                 ),
             ]);
