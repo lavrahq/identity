@@ -26,6 +26,7 @@
 
             <button
                 type="submit"
+                dusk="continue"
                 class="bg-gray-700 w-1/3 self-end py-1 mt-2 text-white text-xs rounded shadow focus:outline-none"
             >
                 Continue

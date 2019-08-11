@@ -4,6 +4,7 @@
     </label>
     <input
         id="{{ $name }}"
+        dusk="{{ $name }}"
         @isset($type) type="{{ $type }}" @else type="text" @endisset
         name="{{ $name }}"
         class="bg-gray-100 active:bg-gray-200 w-full outline-none text-xs pl-2 mb-1"
