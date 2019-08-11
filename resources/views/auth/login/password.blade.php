@@ -20,9 +20,11 @@
             <form-input
                 name="email"
                 label="Email Address"
-                :value="$email"
+                :value="$email->email"
                 type="email"
-                :disabled="true"
+                route="{{ route('auth.login.index') }}"
+                link="Switch Accounts?"
+                disabled
             />
 
             <form-input
@@ -30,22 +32,19 @@
                 label="Password"
                 placeholder="p@ssw0rd123!"
                 type="password"
+                focused
             />
 
             <div class="flex w-2/3 self-end mt-4">
-                <button
-                    type="submit"
-                    name="login_with"
-                    value="email"
-                    class="bg-gray-600 w-1/2 py-1 text-white text-xs rounded shadow focus:outline-none"
+                <a
+                    href="#"
+                    class="bg-gray-600 w-1/2 py-1 text-white text-xs text-center rounded shadow focus:outline-none"
                 >
                     Send an Email
-                </button>
+                </a>
 
                 <button
                     type="submit"
-                    name="login_with"
-                    value="password"
                     class="bg-gray-700 w-1/2 py-1 ml-2 text-white text-xs rounded shadow focus:outline-none"
                 >
                     Continue
@@ -59,7 +58,6 @@
     </div>
 
     <div class="flex flex-col px-4 py-4 w-1/4 shadow-inner-lg">
-
         <a
             href="#"
             class="w-full bg-blue-600 text-center rounded py-1 text-xs text-white antialiased shadow-lg"

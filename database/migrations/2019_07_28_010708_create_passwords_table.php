@@ -20,7 +20,8 @@ class CreatePasswordsTable extends Migration
             $table->string('password');
 
             $table->timestamps();
-            $table->timestamp('expired_at');
+            $table->timestamp('expired_at')
+                ->nullable();
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

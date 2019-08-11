@@ -12,6 +12,7 @@ use App\Http\Requests\Auth\Register\SetupPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Entities\LoginAttempt;
 
 class RegisterController extends Controller
 {
@@ -118,7 +119,6 @@ class RegisterController extends Controller
 
         $password = new Password();
         $password->password = Hash::make($rawPassword);
-        $password->expired_at = now()->addYear();
         $password->user()
             ->associate($user)
             ->save();
@@ -126,6 +126,12 @@ class RegisterController extends Controller
         if (! auth()->user()) {
             Auth::loginUsingId($userId);
         }
+
+        $loginAttempt = LoginAttempt::find($request->cookie('idltoken'));
+        $loginAttempt->user()
+            ->associate($user);
+        $loginAttempt->is_successful = true;
+        $loginAttempt->save();
 
         return redirect()
             ->route('portal');
