@@ -25,11 +25,11 @@ class FinishRegistrationRequest extends FormRequest
     {
         return [
             'login_with' => [
-              'required',
-              'in:password,links',
+                'required',
+                'in:password,links',
             ],
             'email_id' => [
-              'required',
+                'required',
             ],
         ];
     }

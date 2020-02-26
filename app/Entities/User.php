@@ -13,8 +13,8 @@ class User extends Entity implements
     AuthenticatableContract,
     AuthorizableContract
 {
-    use Authenticatable, Authorizable;
-
+    use Authenticatable;
+    use Authorizable;
     /**
      * The attributes that are mass assignable.
      *
@@ -51,7 +51,7 @@ class User extends Entity implements
      *
      * @return Email
      */
-    public function primaryEmail() : Email
+    public function primaryEmail(): Email
     {
         return $this->emails
             ->where('status', 'primary')
