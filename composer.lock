@@ -949,6 +949,7 @@
                 "bcmath",
                 "math"
             ],
+            "abandoned": "brick/math",
             "time": "2017-02-16T16:54:46+00:00"
         },
         {
@@ -1503,17 +1504,17 @@
             ],
             "authors": [
                 {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                },
+                {
                     "name": "Marijn Huizendveld",
                     "email": "marijn.huizendveld@gmail.com"
                 },
                 {
                     "name": "Thibaud Fabre",
                     "email": "thibaud@aztech.io"
-                },
-                {
-                    "name": "Ben Ramsey",
-                    "email": "ben@benramsey.com",
-                    "homepage": "https://benramsey.com"
                 }
             ],
             "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
@@ -1571,33 +1572,33 @@
             "authors": [
                 {
                     "name": "Sebastian De Deyne",
-                    "role": "Developer",
                     "email": "sebastian@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 },
                 {
                     "name": "Brent Roose",
-                    "role": "Developer",
                     "email": "brent@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 },
                 {
                     "name": "Ruben Van Assche",
-                    "role": "Developer",
                     "email": "ruben@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 },
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 },
                 {
                     "name": "Alex Vanderbist",
-                    "role": "Developer",
                     "email": "alex@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 }
             ],
             "description": "Supercharged Blade components",
@@ -1609,6 +1610,7 @@
                 "laravel-blade-x",
                 "spatie"
             ],
+            "abandoned": "laravel/framework",
             "time": "2019-07-25T11:28:06+00:00"
         },
         {
@@ -3032,22 +3034,22 @@
         },
         {
             "name": "valorin/pwned-validator",
-            "version": "1.2.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/valorin/pwned-validator.git",
-                "reference": "6479815ddaeb10c8bd1a7d43cbf21d1723bc3e32"
+                "reference": "d5569a1407bd04fedd431081239889068ae12463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/6479815ddaeb10c8bd1a7d43cbf21d1723bc3e32",
-                "reference": "6479815ddaeb10c8bd1a7d43cbf21d1723bc3e32",
+                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/d5569a1407bd04fedd431081239889068ae12463",
+                "reference": "d5569a1407bd04fedd431081239889068ae12463",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "illuminate/support": "~5.5",
-                "php": ">=7.1.3"
+                "illuminate/support": "^5.5||^6.0||^7.0",
+                "php": ">=7.2"
             },
             "type": "library",
             "extra": {
@@ -3073,7 +3075,7 @@
                 }
             ],
             "description": "Super simple Laravel Validator for checking password via the Pwned Passwords service of Have I Been Pwned",
-            "time": "2019-04-28T10:50:08+00:00"
+            "time": "2020-03-04T01:34:41+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3319,12 +3321,12 @@
             "version": "1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
+                "url": "https://github.com/php-webdriver/php-webdriver.git",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5",
                 "shasum": ""
             },
@@ -3372,6 +3374,7 @@
                 "selenium",
                 "webdriver"
             ],
+            "abandoned": "php-webdriver/webdriver",
             "time": "2019-06-13T08:02:18+00:00"
         },
         {
@@ -3419,8 +3422,8 @@
             "authors": [
                 {
                     "name": "Filipe Dobreira",
-                    "role": "Developer",
-                    "homepage": "https://github.com/filp"
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
                 }
             ],
             "description": "php error handling for cool kids",
@@ -4203,8 +4206,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -4475,8 +4478,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
